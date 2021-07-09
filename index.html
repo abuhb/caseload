@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Caseload List Validation</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+<style>
+
+    body {
+        font-family: 'Roboto', sans-serif;
+    }
+    .nhs-hide {
+        display: none;
+    }
+
+    .nhs-show {
+        display: block;
+    }
+
+    .error {
+        color: red;
+    }
+
+    #pass {
+        color: green;
+    }
+</style>
+    <script>
+
+        function checkConsSelected() {
+        
+            var errormsg1 = document.getElementById("con1null");
+            errormsg1.classList.remove("nhs-show");
+
+            var errormsg2 = document.getElementById("con2null1");
+            errormsg2.classList.remove("nhs-show");
+
+            var errormsg3 = document.getElementById("con2unique");
+            errormsg3.classList.remove("nhs-show");
+
+            var errormsg4 = document.getElementById("con3null2");
+            errormsg4.classList.remove("nhs-show");
+
+            var errormsg5 = document.getElementById("con3null2");
+            errormsg5.classList.remove("nhs-show");
+
+            var errormsg6 = document.getElementById("con3unique");
+            errormsg6.classList.remove("nhs-show");
+
+            var passmgs = document.getElementById("pass");
+            passmgs.classList.remove("nhs-show")
+
+        
+        /* Set cons1 */
+            let cons1 = document.forms["caseload"]["con1"].value;
+                
+        /* Set cons2 */
+            let cons2 = document.forms["caseload"]["con2"].value;
+    
+        /* Set cons3 */
+            let cons3 = document.forms["caseload"]["con3"].value;
+                
+
+        if (cons1 == "") {
+            console.log("FAIL Consultant 1 is not set");
+            var error = document.getElementById("con1null"); 
+            error.classList.toggle("nhs-show");
+            return false;
+        }
+
+
+        if (cons3 != "" && cons1 == "") {
+            console.log("cannot set cons 3 if cons 1 is empty")
+            var error = document.getElementById("con3null2"); 
+            error.classList.toggle("nhs-show");
+            return false;
+        }
+
+        if (cons3 != "" && cons2 == "") {
+            console.log("cannot set cons 3 if cons 2 is empty")
+            var error = document.getElementById("con3null2"); 
+            error.classList.toggle("nhs-show");
+            return false;
+        }
+
+        if (cons2 == cons1) {
+            console.log("cons2 is not unique")
+            var error = document.getElementById("con2unique"); 
+            error.classList.toggle("nhs-show");
+            return false;
+        }
+
+        if (cons3 == cons1) {
+            console.log("cons3 is not unique")
+            var error = document.getElementById("con3unique"); 
+            error.classList.toggle("nhs-show");
+            return false;
+        }
+
+         if (cons3 != "" && cons3 == cons2) {
+              console.log("cons3 is not unique")
+              var error = document.getElementById("con3unique"); 
+              error.classList.toggle("nhs-show");
+              return false;
+         }
+
+        else {
+            console.log("Validation has passed " + cons1, cons2, cons3)
+            var pass = document.getElementById("pass"); 
+            pass.classList.toggle("nhs-show");
+        }
+        return false;
+            }
+    
+    </script>
+
+</head>
+<body>
+
+    <form name="caseload" onsubmit="return checkConsSelected()">
+    <label for="con1">Consultant 1:</label>
+<select id="con1" name="con1">
+    <option value=""></option>
+  <option value="volvo">Volvo</option>
+  <option value="saab">Saab</option>
+  <option value="fiat">Fiat</option>
+  <option value="audi">Audi</option>
+</select>
+<p id="con1null" class="error nhs-hide">Consultant 1 is not set</p>
+</p>
+
+<p>
+<label for="con2">Consultant 2:</label>
+<select id="con2" name="con2">
+    
+    <option value=""></option>
+  <option value="volvo">Volvo</option>
+  <option value="saab">Saab</option>
+  <option value="fiat">Fiat</option>
+  <option value="audi">Audi</option>
+</select>
+<p id="con2null1" class="error nhs-hide">Cannot set Consultant 2 if Consultant 1 is not set</p>
+    <p id="con2unique" class="error nhs-hide">Consultant 2 is not unique</p>
+</p>
+
+<p>
+<label for="con3">Consultant 3:</label>
+<select id="con3" name="con3">
+    <option value=""></option>
+  <option value="volvo">Volvo</option>
+  <option value="saab">Saab</option>
+  <option value="fiat">Fiat</option>
+  <option value="audi">Audi</option>
+</select>
+<p id="con3null2" class="error nhs-hide">Consultant 3 cannot be set if Consultant 1 and 2 are not set</p>
+<p id="con3unique" class="error nhs-hide">Consutlant 3 is not unique</p>
+</p>
+
+<p id="pass" class="nhs-hide">Woohoo that will work</p>
+
+<input type="submit" value="Save">
+
+</form>
+
+</body>
+</html>
